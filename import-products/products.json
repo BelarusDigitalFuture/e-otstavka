@@ -1,0 +1,58 @@
+[{
+    "sku": "GIJOE036",
+    "name": "Cobra Commander G.I. Joe T-Shirt",
+    "categories": ["GI Joe", "80s", "Cartoon"],
+    "url": "cobra-commander-g-i-joe-t-shirt",
+    "pics": ["https:\/\/ezhik.by\/wp-content\/uploads\/2020\/12\/kak-poluchit-pozdravlenie-ot-deda-moroza-cover-e1607337071176-300x300.jpg"],
+    "desc": "This G.I Joe shirt is officially licensed by Hasbro and features a print of the Cobra logo.",
+    "attributes": [{
+        "precio": 26.97,
+        "descuento": 0,
+        "impuesto": 13,
+        "existencias": 100,
+        "config": {
+            "talla": "S"
+        }
+    }, {
+        "precio": 26.97,
+        "descuento": 0,
+        "impuesto": 13,
+        "existencias": 80,
+        "config": {
+            "talla": "M"
+        }
+    }, {
+        "precio": 40.3,
+        "descuento": 0,
+        "impuesto": 13,
+        "existencias": 2,
+        "config": {
+            "talla": "XL"
+        }
+    }]
+}, {
+    "sku": "MOTU113",
+    "name": "Masters Of The Universe Characters Shirt",    
+    "categories": ["He-Man", "80s", "Cartoon", "Sale"],
+    "url": "masters-of-the-universe-characters-shirt",
+    "pics": [""],
+    "desc": "This Masters of the Universe shirt features characters from the massively popular Filmation animated series. The shirt shows the powerful He-Man, Skeletor, Man-At-Arms, Trap Jaw, Orko, The Sorceress, the ferocious Battle Cat, Beast Man, the modest Prince Adam, Evil-Lyn, the timid Cringer, and She-Ra. This shirt includes both the good and evil characters from the series. Which ever side you rooted for to conquer Castle Grayskull, you are a fan. And, this Masters of the Universe characters shirt is perfect for anyone who has ever seen and loved the animated series. ",
+    "attributes": [{
+        "precio": 28.73,
+        "descuento": 10,
+        "impuesto": 13,
+        "existencias": 10,
+        "config": {
+            "talla": "S"
+        }
+    }, {
+        "precio": 45.87,
+        "descuento": 0,
+        "impuesto": 13,
+        "existencias": 2,
+        "config": {
+            "talla": "XL"
+        }
+    }]
+}
+]
