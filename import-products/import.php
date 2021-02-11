@@ -4,6 +4,8 @@ require __DIR__ . '/vendor/autoload.php';
 use Automattic\WooCommerce\Client;
 use Automattic\WooCommerce\HttpClient\HttpClientException;
 
+// Script start
+$rustart = getrusage();
 
 function getWoocommerceConfig()
 {
@@ -22,6 +24,36 @@ function getWoocommerceConfig()
     return $woocommerce;
 }
 
+
+/**
+ * Check if image exist on server
+ *
+ * @param  string $image
+ * @return true
+ */
+ 
+function checkImageExists($image){
+	$file_headers = @get_headers($image);
+	if($file_headers || $file_headers[0] != 'HTTP/1.1 404 Not Found')
+		return true;
+}
+
+/**
+ * Find category in full list
+ *
+ * @param  string $category, $allCategories
+ * @return category name
+ */
+ 
+function findRealCategory($category, $allCategories){
+	foreach ($allCategories as $allCategory){
+        if ($allCategory["id"] == $category){
+	        $category = $allCategory["name"];
+	        return $allCategory["name"];
+        }
+    }
+}
+
 /**
  * Parse JSON file.
  *
@@ -30,7 +62,7 @@ function getWoocommerceConfig()
  */
 function getJsonFromFile()
 {
-    $file = 'products.json';
+    $file = dirname(__FILE__) . '/products.json';
     $json = json_decode(file_get_contents($file), true);
     return $json;
 }
@@ -53,52 +85,67 @@ function checkProductBySku($skuCode)
 function createProducts()
 {
     $woocommerce = getWoocommerceConfig();
-    $products = getJsonFromFile();
+    $products = getJsonFromFile()["products"];
+    $allCategories = getJsonFromFile()["categories"];
     $imgCounter = 0;
     foreach ($products as $product) {
         /*Chec sku before create the product */
-        $productExist = checkProductBySku($product['sku']);
+        $productExist = checkProductBySku($product['id']);
 
 
         $imagesFormated = array();
         /*Main information */
         $name = $product['name'];
         $slug = $product['url'];
-        $sku = $product['sku'];
+        $sku = $product['id'];
         $description = $product['desc'];
-        $images = $product['pics'];
-        $attributes = $product['attributes'];
-        $categories = $product['categories'];
+        $images = $product['picture'];
+        $attributes = $product['params'];
+        array_splice($attributes, 0, 0, $product['size'] );
+        $categories = $product['category'];        
         $categoriesIds = array();
-        foreach ($images as $image) {
-	        $file = $image;
-			$file_headers = @get_headers($file);
-			if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {			   
-			}
-			else {			
-	            $imagesFormated[] = [
-	                'src' => $image,
-	                'position' => 0
-	            ]; /* TODO: FIX POSITON */
-	            $imgCounter++;
-            }
-        }
-
-        /* Prepare categories */
-        foreach ($categories as $category) {
-            $categoriesIds[] = ['id' => getCategoryIdByName($category)];
-        }
+        if (is_array($images)){
+	        foreach ($images as $image){
+		        if (checkImageExists($image)){
+			        $imagesFormated[] = [
+		                'src' => $image,
+		                'position' => 0
+		            ];
+		            $imgCounter++;
+		        }
+	        }
+        }else {
+	        $imagesFormated[] = [
+                'src' => $images,
+                'position' => 0
+            ];
+            $imgCounter++;
+        }        
+		if (is_array($categories)){
+	        /* Prepare categories */
+	        foreach ($categories as $category) {	
+		        $categoryName = findRealCategory($category, $allCategories);
+		        if ($categoryName)	{
+		            $categoriesIds[] = ['id' => getCategoryIdByName($categoryName)];			        
+		        }        
+	        }			
+		}else {
+			$categoryName = findRealCategory($categories, $allCategories);
+	        if ($categoryName)	{
+	            $categoriesIds[] = ['id' => getCategoryIdByName($categoryName)];			        
+	        }			
+		}
         $finalProduct = [
             'name' => $name,
             'slug' => $slug,
             'sku' => $sku,
             'description' => $description,
+            'regular_price' => $product['price']['value'],
             'images' => $imagesFormated,
             'categories' => $categoriesIds,
             'attributes' => getproductAtributesNames($attributes)
 
         ];
-
 
         if (!$productExist['exist']) {
              $productResult = $woocommerce->post('products', $finalProduct);
@@ -107,23 +154,60 @@ function createProducts()
             $idProduct = $productExist['idProduct'];
             $woocommerce->put('products/' . $idProduct, $finalProduct);
         }
+       unset($name);
+       unset($slug);
+       unset($sku);
+       unset($description);
+       unset($imagesFormated);
+       unset($image);
+       unset($categoriesIds);
+       unset($attributes);                                                  
     }
 }
 
 
+function createCategory($value)
+{
+	$woocommerce = getWoocommerceConfig();
+    if (!checkCategoryByname($value["name"])) {
+        $data = [
+            'name' => $value["name"],
+            'parent'=> $value["parent"]
+        ];
+        $woocommerce->post('products/categories', $data);
+    }
+
+}
+
 function createCategories()
 {
-    $categoryValues = getCategories();
-    $woocommerce = getWoocommerceConfig();
-    
-    foreach ($categoryValues as $value) {
-        if (!checkCategoryByname($value)) {
-            $data = [
-                'name' => $value
-            ];
-            $woocommerce->post('products/categories', $data);
-        }
+    $products = getJsonFromFile()["products"];
+    $allCategories = getJsonFromFile()["categories"]; 
+    $allWithParent = array();   
+    // loop throught all categories and find parent
+    foreach ($allCategories as $allCategory){
+	    // if we have parent lets bind them together	   
+	    if ($allCategory["parent"] !== 0){
+		    // loop throught all categories
+		    foreach ($allCategories as $findCategory){
+			    // find id of parent and get its name			    
+			    if($findCategory["id"] == $allCategory["parent"]){				    
+				    // get its id in woocommerce from name				    
+				   $parentId = getCategoryIdByName($findCategory["name"]); 
+				   $category = array("name"=>$allCategory["name"], "parent"=>$parentId);
+				   createCategory($category);
+			    }
+		    }
+		    
+	    }
+	    // if does not have parent create right away
+	    else {		    
+		    $category = array("name"=>$allCategory["name"], "parent"=>"0");
+		    createCategory($category);
+	    }
+	    
     }
+    return " Done importing categories";
 }
 
 function checkCategoryByName($categoryName)
@@ -139,26 +223,13 @@ function checkCategoryByName($categoryName)
 }
 
 /** CATEGORIES  **/
-function getCategories()
-{
-    $products = getJsonFromFile();
-    $categories = array_column($products, 'categories');
-
-    foreach ($categories as $categoryItems) {
-        foreach ($categoryItems as $categoryValue) {
-            $categoryPlainValues[] = $categoryValue;
-        }
-    }
-    $categoryList = array_unique($categoryPlainValues);
-    return $categoryList;
-}
 
 
 function getCategoryIdByName($categoryName)
 {
     $woocommerce = getWoocommerceConfig();
     $categories = $woocommerce->get('products/categories');
-    foreach ($categories as $category) {
+    foreach ($categories as $category) {;
         if ($category->name == $categoryName) {
             return $category->id;
         }
@@ -168,43 +239,19 @@ function getCategoryIdByName($categoryName)
 function getproductAtributesNames($attributes)
 {
     $keys = array();
-    foreach ($attributes as $attribute) {
-        $terms = $attribute['config'];
-        foreach ($terms as $key => $term) {
-            array_push($keys, $key);
-        }
-    }
-       /* remove repeted keys*/
-    $keys = array_unique($keys);
-    $configlist = array_column($attributes, 'config');
-    $options = array();
-    foreach ($keys as $key) {
-        $attributes = array(
+    foreach ($attributes as $attribute) {        
+        $attributes[] = 
             array(
-                'name' => $key,
-                'slug' => 'attr_' . $key,
+                'name' => $attribute['unit'],
+                'slug' => 'attr_' . $attribute['unit'],
                 'visible' => true,
                 'variation' => true,
-                'options' => getTermsByKeyName($key, $configlist)
-            )
-        );
-    }
+                'options' => $attribute['value']
+            );
+    }   
     return $attributes;
 }
 
-function getTermsByKeyName($keyName, $configList)
-{
-    //var_dump($configList);
-    $options = array();
-    foreach ($configList as $config) {
-        foreach ($config as $key => $term) {
-            if ($key == $keyName) {
-                array_push($options, $term);
-            }
-        }
-    }
-    return $options;
-}
 
 function prepareInitialConfig()
 {
@@ -216,5 +263,16 @@ function prepareInitialConfig()
 
 prepareInitialConfig();
 
+
+function rutime($ru, $rus, $index) {
+    return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
+     -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+}
+
+$ru = getrusage();
+echo "This process used " . rutime($ru, $rustart, "utime") .
+    " ms for its computations\n";
+echo "It spent " . rutime($ru, $rustart, "stime") .
+    " ms in system calls\n";
 
 ?>
