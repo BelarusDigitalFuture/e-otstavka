@@ -33,7 +33,7 @@ if ( $product->is_in_stock() ) : ?>
 		<?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>
 		<h3><? echo esc_html__( 'Количество', 'jiraf' )?></h3>
 		<div class="quantity mb-20">
-			<input type="button" value="-" class="quantity__button quantity__button--minus" field="quantity">
+			<input  value="-" class="quantity__button quantity__button--minus" field="quantity">
 			<?php
 			do_action( 'woocommerce_before_add_to_cart_quantity' );
 	
@@ -47,7 +47,7 @@ if ( $product->is_in_stock() ) : ?>
 	
 			do_action( 'woocommerce_after_add_to_cart_quantity' );
 			?>
-			<input type="button" value="+" class="quantity__button quantity__button--plus" field="quantity">
+			<input  value="+" class="quantity__button quantity__button--plus" field="quantity">
 		</div>
 
 		<button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>

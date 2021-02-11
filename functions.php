@@ -192,7 +192,7 @@ function woocommerce_header_add_to_cart_fragment( $fragments ) {
 
 	?>
 	<a class="cart-customlocation" href="<?php echo esc_url(wc_get_cart_url()); ?>" title="<?php _e( 'View your shopping cart' ); ?>">
-		<img src="/wp-content/themes/clean-commerce/img/cart.svg" alt="" title="">
+		<img src="<?=get_template_directory_uri();?>/img/white/cart.svg" alt="" title="">
 		<div class="cart-count"><?=$woocommerce->cart->cart_contents_count;?></div>
 		<div class="cart-sum"><?=$woocommerce->cart->get_cart_total();?></div>		
 	</a>

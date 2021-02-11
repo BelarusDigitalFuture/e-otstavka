@@ -13,10 +13,6 @@
  */
 
 get_header(); ?>
-
-	<h2 class="page__title">Что вы хотите заказать?</h2>		
-	
-	<?php get_template_part( 'template-parts/content', 'ajax-search' ); ?>
 	
 	<?php get_template_part( 'template-parts/content', 'categories' ); ?>						
 
