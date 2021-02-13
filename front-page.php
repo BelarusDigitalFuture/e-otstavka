@@ -13,18 +13,18 @@
  */
 
 get_header(); ?>
-	
-	<?php get_template_part( 'template-parts/content', 'categories' ); ?>						
 
 	
-	<?php get_template_part( 'template-parts/content', 'featured-slider' ); ?>	
+		<?php get_template_part( 'template-parts/content', 'categories' ); ?>						
 	
-	<?php get_template_part( 'template-parts/content', 'categories-slider' ); ?>						
-	
-	<?php get_template_part( 'template-parts/content', 'featured' ); ?>	
-	
-	<a href="shop.html" class="button button--green button--full mb-20">VIEW ALL PRODUCTS</a>	  		  	
-
+		
+		<?php // get_template_part( 'template-parts/content', 'featured-slider' ); ?>	
+		
+		<?php // get_template_part( 'template-parts/content', 'categories-slider' ); ?>						
+		
+		<?php // get_template_part( 'template-parts/content', 'featured' ); ?>	
+		
+		<a href="/shop" class="button button--green button--full mb-20">Все товары</a>	  		  	
 
 <?php
 	/**

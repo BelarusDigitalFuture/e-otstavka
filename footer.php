@@ -1,4 +1,5 @@
-	</div>
+		</div> <!- Content area -->
+	</div> <!- Page content -->
 </div>
 <!-- PAGE END -->
 

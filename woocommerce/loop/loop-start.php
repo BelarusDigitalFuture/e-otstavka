@@ -22,6 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <? //<ul class="products columns-<?php echo esc_attr( wc_get_loop_prop( 'columns' ) ); ?>
 
-<div class="swiper-container slider-thumbs swiper-container-product slider-init mb-20 s0 swiper-container-initialized swiper-container-horizontal" data-paginationtype="bullets" data-spacebetweenitems="10" data-itemsperview="auto">
+<div class="swiper-container swiper-product slider-thumbs swiper-container-product slider-init mb-20 s0 swiper-container-initialized swiper-container-horizontal" data-paginationtype="bullets" data-spacebetweenitems="10" data-itemsperview="auto">
 	<div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
 	

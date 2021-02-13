@@ -14,9 +14,10 @@
     'orderby'           => 'ID',
     'order'             => 'ASC',
     'show_count'        => 1,
-    'hide_empty'        => 0,
-    'hierarchical'      => 0,
-//			    'depth'             => 1,
+    'hide_empty'        => 1,
+    'exclude'			=> array(15),
+    'hierarchical'      => true,
+    'depth'             => 3,
 //			    'number'            => 12,
     'taxonomy'   =>  'product_cat' // mention taxonomy here. 
     );
@@ -43,36 +44,6 @@
 			  </div>				  
 		  </div>
 	<?}?>
-   
-  <div class="category-card">				  
-	  <div class="card__details">
-		  <h4 class="card__title"><a href="shop-details.html" >Burger Box</a></h4>
-	  </div>				  
-	  <div class="card__product">
-		  <a href="shop-details.html" >
-			  <img src="/wp-content/uploads/2021/01/fruits.svg" alt="" title="">
-		  </a> 
-	  </div>				  
-  </div>
-  <div class="category-card">				  
-	  <div class="card__details">
-		  <h4 class="card__title"><a href="shop-details.html" >Burger Box</a></h4>
-	  </div>				  
-	  <div class="card__product">
-		  <a href="shop-details.html" >
-			  <img src="/wp-content/uploads/2021/01/fruits.svg" alt="" title="">
-		  </a> 
-	  </div>				  
-  </div>
-  <div class="category-card">				  
-	  <div class="card__details">
-		  <h4 class="card__title"><a href="shop-details.html" >Burger Box</a></h4>
-	  </div>				  
-	  <div class="card__product">
-		  <a href="shop-details.html" >
-			  <img src="/wp-content/uploads/2021/01/fruits.svg" alt="" title="">
-		  </a> 
-	  </div>				  
-  </div>
+    
 </div>
 

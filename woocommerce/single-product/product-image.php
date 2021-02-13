@@ -36,7 +36,7 @@ $wrapper_classes   = apply_filters(
 	)
 );
 ?>
-<div class="swiper-container slider-thumb-init mb-10 t0 swiper-container-initialized swiper-container-horizontal" data-paginationtype="bullets" data-spacebetweenitems="0" data-itemsperview="1">
+<div class="swiper-container swiper-product-inner slider-thumb-init mb-10 t0 swiper-container-initialized swiper-container-horizontal" data-paginationtype="bullets" data-spacebetweenitems="0" data-itemsperview="1">
 	<div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
 		<div class="swiper-slide slider-simple__slide swiper-slide-active text-center">
 			<?php

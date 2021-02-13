@@ -201,9 +201,11 @@ function woocommerce_header_add_to_cart_fragment( $fragments ) {
 	$fragments['a.cart-customlocation'] = ob_get_clean();
 	return $fragments;
 }
+
 /**
  * Change a currency symbol
  */
+ 
 add_filter('woocommerce_currency_symbol', 'change_existing_currency_symbol', 10, 2);
 
 function change_existing_currency_symbol( $currency_symbol, $currency ) {
@@ -211,4 +213,26 @@ function change_existing_currency_symbol( $currency_symbol, $currency ) {
           case 'BYN': $currency_symbol = 'р.'; break;
      }
      return $currency_symbol;
+}
+
+/**
+ * Increase api limit
+ */
+
+
+function maximum_api_filter($query_params) {
+    $query_params['per_page']["maximum"]=1000;
+    $query_params['posts_per_page']["maximum"]=1000;
+    return $query_params;
+}
+add_filter('rest_page_collection_params', 'maximum_api_filter');
+
+
+/**
+ * For import, disable image thumbnail generation in background 
+ */
+
+add_action( 'init', 'disable_image_regeneration_process', 5 );
+function disable_image_regeneration_process() {
+   add_filter( 'woocommerce_background_image_regeneration', '__return_false' );
 }

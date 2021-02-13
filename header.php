@@ -138,5 +138,6 @@
 	</header>
 		<!-- PAGE CONTENT -->
 <div class="page__content page__content--with-header">	
-	<h2 class="page__title">Что вы хотите заказать?</h2>			
-	<?php get_template_part( 'template-parts/content', 'ajax-search' ); ?>
+	<div class="content-area">
+		<h2 class="page__title">Что вы хотите заказать?</h2>			
+		<?php get_template_part( 'template-parts/content', 'ajax-search' ); ?>
