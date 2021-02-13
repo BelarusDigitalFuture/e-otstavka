@@ -3,13 +3,13 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Automattic\WooCommerce\Client;
 use Automattic\WooCommerce\HttpClient\HttpClientException;
-
+// TODO: Add Badges Spicy
+// TODO: Add Warehouse tag
 // Script start
 $rustart = getrusage();
 
 function getWoocommerceConfig()
 {
-
     $woocommerce = new Client(
         'https://mobile.leadergroup.by',
 	    'ck_6e13eec6b7683d37d81cc7ba21cbc48873d261f9', 
@@ -33,9 +33,17 @@ function getWoocommerceConfig()
  */
  
 function checkImageExists($image){
-	$file_headers = @get_headers($image);
-	if($file_headers || $file_headers[0] != 'HTTP/1.1 404 Not Found')
+	if (@getimagesize($image)) {
 		return true;
+	} else {
+		return false;
+	}			
+}
+
+function writeToLog($data){
+	$fp = fopen(dirname(__FILE__) . '/data.txt', 'a');//opens file in append mode  
+    fwrite($fp, print_r($data, true));            
+	fclose($fp);	
 }
 
 /**
@@ -70,7 +78,7 @@ function getJsonFromFile()
 function checkProductBySku($skuCode)
 {
     $woocommerce = getWoocommerceConfig(); 
-    $products = $woocommerce->get('products');
+    $products = $woocommerce->get('products', ['sku'=> $skuCode]);
     foreach ($products as $product) {
         $currentSku = strtolower($product->sku);
         $skuCode = strtolower($skuCode);
@@ -88,11 +96,10 @@ function createProducts()
     $products = getJsonFromFile()["products"];
     $allCategories = getJsonFromFile()["categories"];
     $imgCounter = 0;
+    $prodCount = 0;
     foreach ($products as $product) {
         /*Chec sku before create the product */
         $productExist = checkProductBySku($product['id']);
-
-
         $imagesFormated = array();
         /*Main information */
         $name = $product['name'];
@@ -106,7 +113,7 @@ function createProducts()
         $categoriesIds = array();
         if (is_array($images)){
 	        foreach ($images as $image){
-		        if (checkImageExists($image)){
+		        if (checkImageExists($image) == true){
 			        $imagesFormated[] = [
 		                'src' => $image,
 		                'position' => 0
@@ -115,12 +122,15 @@ function createProducts()
 		        }
 	        }
         }else {
-	        $imagesFormated[] = [
-                'src' => $images,
-                'position' => 0
-            ];
-            $imgCounter++;
-        }        
+	        if (checkImageExists($images) == true){
+		        $imagesFormated[] = [
+	                'src' => $images,
+	                'position' => 0
+	            ];
+	            $imgCounter++;
+		    }	        
+        } 
+        
 		if (is_array($categories)){
 	        /* Prepare categories */
 	        foreach ($categories as $category) {	
@@ -133,6 +143,8 @@ function createProducts()
 			$categoryName = findRealCategory($categories, $allCategories);
 	        if ($categoryName)	{
 	            $categoriesIds[] = ['id' => getCategoryIdByName($categoryName)];			        
+	        }else {
+		        $categoriesIds = "";
 	        }			
 		}
         $finalProduct = [
@@ -140,28 +152,44 @@ function createProducts()
             'slug' => $slug,
             'sku' => $sku,
             'description' => $description,
-            'regular_price' => $product['price']['value'],
-            'images' => $imagesFormated,
+            'regular_price' => $product['price']['value'],            
             'categories' => $categoriesIds,
             'attributes' => getproductAtributesNames($attributes)
 
         ];
-
+        if ($imagesFormated[0]['src'] != ''){
+	        $finalProduct['images'] = $imagesFormated;
+        }
+        else {
+	        $finalProduct['images'] = '';
+        }
+        $fp = fopen(dirname(__FILE__) . '/data.txt', 'a');//opens file in append mode  
+        print_r($finalProduct);
+        fwrite($fp, print_r($finalProduct, true));  
         if (!$productExist['exist']) {
              $productResult = $woocommerce->post('products', $finalProduct);
+             echo "created product #" . $prodCount . " " . $finalProduct["name"] . " sku: " . $finalProduct["sku"] . "<br> \n \r\n";
+             fwrite($fp, "created product #" . $prodCount . " " . $finalProduct["name"] . " sku: " . $finalProduct["sku"] . "<br> \n \r\n");
         } else {
             /*Update product information */
             $idProduct = $productExist['idProduct'];
             $woocommerce->put('products/' . $idProduct, $finalProduct);
+            echo "updated product #" . $prodCount . " " . $finalProduct["name"] . " sku: " . $finalProduct["sku"] . "<br> \n \r\n";
+            fwrite($fp, "updated product #" . $prodCount . " " . $finalProduct["name"] . " sku: " . $finalProduct["sku"] . "<br> \n \r\n");            
         }
+          
+		fclose($fp);  
+		$prodCount++;
        unset($name);
        unset($slug);
        unset($sku);
        unset($description);
        unset($imagesFormated);
        unset($image);
+       unset($images);       
        unset($categoriesIds);
-       unset($attributes);                                                  
+       unset($attributes); 
+       unset($finalProduct);                                                 
     }
 }
 
@@ -169,12 +197,20 @@ function createProducts()
 function createCategory($value)
 {
 	$woocommerce = getWoocommerceConfig();
-    if (!checkCategoryByname($value["name"])) {
-        $data = [
-            'name' => $value["name"],
-            'parent'=> $value["parent"]
-        ];
+	$categoryId = checkCategoryByname($value["name"]);
+	$data = [
+        'name' => $value["name"],
+        'parent'=> $value["parent"]
+    ];
+    print_r($categoryId);
+    print_r($data);
+
+    writeToLog($data);
+    
+    if (!$categoryId) {        
         $woocommerce->post('products/categories', $data);
+    }else {
+	    $woocommerce->put('products/categories/'.$categoryId, $data);
     }
 
 }
@@ -212,13 +248,25 @@ function createCategories()
 
 function checkCategoryByName($categoryName)
 {
+	$categoryName = str_replace("  ", " ", $categoryName);
     $woocommerce = getWoocommerceConfig();
-    $categories = $woocommerce->get('products/categories');
-    foreach ($categories as $category) {
-        if ($category->name === $categoryName) {
-            return true;
-        }
-    }
+    $categories = $woocommerce->get('products/categories', ['posts_per_page' => 100, 'number'=> 100, 'per_page'=>100, 'search'=>$categoryName]);
+    $lastResponse = $woocommerce->http->getResponse();
+	$headers = $lastResponse->getHeaders();
+	$totalPages = $headers['X-WP-TotalPages'];
+	$i = 0;
+	$page = 1;
+	while ($i++ < $totalPages)
+	{
+		$categories = $woocommerce->get('products/categories', ['posts_per_page' => 100, 'number'=> 100, 'per_page'=>100, 'page'=> $page, 'search'=>$categoryName]);
+		foreach ($categories as $category) {
+	        if ($category->name === $categoryName) {
+	            return $category->id;
+	        }
+	    }
+	    $page++;   
+	}
+    
     return false;
 }
 
@@ -227,37 +275,49 @@ function checkCategoryByName($categoryName)
 
 function getCategoryIdByName($categoryName)
 {
-    $woocommerce = getWoocommerceConfig();
-    $categories = $woocommerce->get('products/categories');
-    foreach ($categories as $category) {;
-        if ($category->name == $categoryName) {
-            return $category->id;
-        }
-    }
+	$woocommerce = getWoocommerceConfig();
+    $categories = $woocommerce->get('products/categories', ['posts_per_page' => 100, 'number'=> 100, 'per_page'=>100, 'search'=>$categoryName]);
+    $lastResponse = $woocommerce->http->getResponse();
+	$headers = $lastResponse->getHeaders();
+	$totalPages = $headers['X-WP-TotalPages'];
+	$i = 0;
+	$page = 1;
+	while ($i++ < $totalPages)
+	{
+		$categories = $woocommerce->get('products/categories', ['posts_per_page' => 100, 'number'=> 100, 'per_page'=>100, 'page'=> $page, 'search'=>$categoryName]);
+		foreach ($categories as $category) {;
+	        if ($category->name == $categoryName) {
+	            return $category->id;
+	        }
+	    }
+	    $page++;   
+	}		        
 }
 
 function getproductAtributesNames($attributes)
 {
     $keys = array();
     foreach ($attributes as $attribute) {        
-        $attributes[] = 
+        $attr[] = 
             array(
-                'name' => $attribute['unit'],
-                'slug' => 'attr_' . $attribute['unit'],
+                'name' => (isset($attribute['unit']) ? $attribute['unit'] : $attribute['id']),
+                'slug' => 'attr_' . (isset($attribute['unit']) ? $attribute['unit'] : $attribute['id']),
                 'visible' => true,
                 'variation' => true,
                 'options' => $attribute['value']
             );
     }   
-    return $attributes;
+    return $attr;
 }
 
 
 function prepareInitialConfig()
 {
     echo ('Importing data, wait...')."\n";
+    writeToLog( date("Y.m.d") . " " . date("h:i:sa") . "Importing data");
     createCategories();
     createProducts();
+    writeToLog("Done" . date("Y.m.d") . " " . date("h:i:sa") );
     echo ('Done!')."\n";
 }
 

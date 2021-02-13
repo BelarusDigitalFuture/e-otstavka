@@ -1,0 +1,291 @@
+{
+    "categories": [
+        {
+            "id": "9984cbce7979b950770c22e7a86f015560cc3382",
+            "name": "\u041d\u0430\u043f\u0438\u0442\u043a\u0438",
+            "isIncludedInMenu": 1,
+            "parent": 0
+        }
+    ]
+    ,
+    "details": {
+        "warehouseAddress": "\u0433. \u041c\u0438\u043d\u0441\u043a, \u0443\u043b. \u0414\u0443\u043d\u0438\u043d\u0430-\u041c\u0430\u0440\u0442\u0438\u043d\u043a\u0435\u0432\u0438\u0447\u0430, 11",
+        "lastUpdate": "2021-01-15 8:1"
+    },
+    "products": [
+        {
+            "id": "5449000004840",
+            "category": "93c9726ec5368ec1fbaec901931a2e329eb947f7",
+            "isIncludedInMenu": 1,
+            "name": "\u041d\u0410\u041f\u0418\u0422\u041e\u041a \u0413\u0410\u0417.\u0424\u0410\u041d\u0422\u0410 \u0410\u041f\u0415\u041b\u042c\u0421\u0418\u041d 2\u041b",
+            "badges": [
+                ""
+            ],
+            "price": {
+                "value": "3.36",
+                "currency": "BYN"
+            },
+            "size": [
+                {
+                    "value": "2.00",
+                    "unit": "\u043b"
+                },
+                {
+                    "value": "2.00",
+                    "unit": "\u043a\u0433"
+                }
+            ],
+            "picture": "http:\/\/api.ezhik.by\/export\/images\/5449000004840.jpg",
+            "params": [
+                {
+                    "value": "\u0428\u0442\u0443\u0447\u043d\u044b\u0439",
+                    "id": "passScales"
+                },
+                {
+                    "value": "\u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430 \u0411\u0435\u043b\u0430\u0440\u0443\u0441\u044c",
+                    "id": "nameCountry"
+                },
+                {
+                    "value": "Fanta",
+                    "id": "nameBrand"
+                },
+                {
+                    "value": "\u041a\u043e\u043a\u0430 \u041a\u043e\u043b\u0430 \u0411\u0435\u0432\u0440\u0438\u0434\u0436\u0438\u0437",
+                    "id": "nameManufacturer"
+                },
+                {
+                    "value": "2.00000",
+                    "id": "netWeight"
+                },
+                {
+                    "value": "2.000",
+                    "id": "volume"
+                },
+                {
+                    "value": "\u041d\u0435\u0430\u043a\u0446\u0438\u043e\u043d\u043d\u044b\u0439",
+                    "id": "inPromo"
+                }
+            ]
+        },
+        {
+            "id": "5449000004864",
+            "category": "93c9726ec5368ec1fbaec901931a2e329eb947f7",
+            "isIncludedInMenu": 1,
+            "name": "\u041d\u0410\u041f\u0418\u0422\u041e\u041a \u0413\u0410\u0417.\u0421\u041f\u0420\u0410\u0419\u0422 2\u041b",
+            "badges": [
+                ""
+            ],
+            "price": {
+                "value": "3.36",
+                "currency": "BYN"
+            },
+            "size": [
+                {
+                    "value": "2.00",
+                    "unit": "\u043b"
+                },
+                {
+                    "value": "2.00",
+                    "unit": "\u043a\u0433"
+                }
+            ],
+            "picture": "http:\/\/api.ezhik.by\/export\/images\/5449000004864.jpg",
+            "params": [
+                {
+                    "value": "\u0428\u0442\u0443\u0447\u043d\u044b\u0439",
+                    "id": "passScales"
+                },
+                {
+                    "value": "\u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430 \u0411\u0435\u043b\u0430\u0440\u0443\u0441\u044c",
+                    "id": "nameCountry"
+                },
+                {
+                    "value": "Sprite",
+                    "id": "nameBrand"
+                },
+                {
+                    "value": "\u041a\u043e\u043a\u0430 \u041a\u043e\u043b\u0430 \u0411\u0435\u0432\u0440\u0438\u0434\u0436\u0438\u0437",
+                    "id": "nameManufacturer"
+                },
+                {
+                    "value": "2.00000",
+                    "id": "netWeight"
+                },
+                {
+                    "value": "2.000",
+                    "id": "volume"
+                },
+                {
+                    "value": "\u041d\u0435\u0430\u043a\u0446\u0438\u043e\u043d\u043d\u044b\u0439",
+                    "id": "inPromo"
+                }
+            ]
+        },
+        {
+            "id": "5449000050939",
+            "category": "93c9726ec5368ec1fbaec901931a2e329eb947f7",
+            "isIncludedInMenu": 1,
+            "name": "\u041d\u0410\u041f\u0418\u0422\u041e\u041a \u0413\u0410\u0417.\u0421\u041f\u0420\u0410\u0419\u0422 1\u041b",
+            "badges": [
+                ""
+            ],
+            "price": {
+                "value": "2.08",
+                "currency": "BYN"
+            },
+            "size": [
+                {
+                    "value": "1.00",
+                    "unit": "\u043b"
+                },
+                {
+                    "value": "1.00",
+                    "unit": "\u043a\u0433"
+                }
+            ],
+            "picture": "http:\/\/api.ezhik.by\/export\/images\/5449000050939.jpg",
+            "params": [
+                {
+                    "value": "\u0428\u0442\u0443\u0447\u043d\u044b\u0439",
+                    "id": "passScales"
+                },
+                {
+                    "value": "\u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430 \u0411\u0435\u043b\u0430\u0440\u0443\u0441\u044c",
+                    "id": "nameCountry"
+                },
+                {
+                    "value": "Sprite",
+                    "id": "nameBrand"
+                },
+                {
+                    "value": "\u041a\u043e\u043a\u0430 \u041a\u043e\u043b\u0430 \u0411\u0435\u0432\u0440\u0438\u0434\u0436\u0438\u0437",
+                    "id": "nameManufacturer"
+                },
+                {
+                    "value": "1.00000",
+                    "id": "netWeight"
+                },
+                {
+                    "value": "1.000",
+                    "id": "volume"
+                },
+                {
+                    "value": "\u041d\u0435\u0430\u043a\u0446\u0438\u043e\u043d\u043d\u044b\u0439",
+                    "id": "inPromo"
+                }
+            ]
+        },
+        {
+            "id": "54491069",
+            "category": "93c9726ec5368ec1fbaec901931a2e329eb947f7",
+            "isIncludedInMenu": 1,
+            "name": "\u041d\u0410\u041f\u0418\u0422\u041e\u041a \u0413\u0410\u0417.\u0421\u041f\u0420\u0410\u0419\u0422 0.5\u041b",
+            "badges": [
+                ""
+            ],
+            "price": {
+                "value": "1.49",
+                "currency": "BYN"
+            },
+            "size": [
+                {
+                    "value": "0.50",
+                    "unit": "\u043b"
+                },
+                {
+                    "value": "0.50",
+                    "unit": "\u043a\u0433"
+                }
+            ],
+            "picture": "http:\/\/api.ezhik.by\/export\/images\/54491069.jpg",
+            "params": [
+                {
+                    "value": "\u0428\u0442\u0443\u0447\u043d\u044b\u0439",
+                    "id": "passScales"
+                },
+                {
+                    "value": "\u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430 \u0411\u0435\u043b\u0430\u0440\u0443\u0441\u044c",
+                    "id": "nameCountry"
+                },
+                {
+                    "value": "Sprite",
+                    "id": "nameBrand"
+                },
+                {
+                    "value": "\u041a\u043e\u043a\u0430 \u041a\u043e\u043b\u0430 \u0411\u0435\u0432\u0440\u0438\u0434\u0436\u0438\u0437",
+                    "id": "nameManufacturer"
+                },
+                {
+                    "value": "0.50000",
+                    "id": "netWeight"
+                },
+                {
+                    "value": "0.55000",
+                    "id": "grossWeight"
+                },
+                {
+                    "value": "0.500",
+                    "id": "volume"
+                },
+                {
+                    "value": "\u041d\u0435\u0430\u043a\u0446\u0438\u043e\u043d\u043d\u044b\u0439",
+                    "id": "inPromo"
+                }
+            ]
+        },
+        {
+            "id": "90494406",
+            "category": "c0a20adca459816f152dda4cac0178a96ea77c84",
+            "isIncludedInMenu": 1,
+            "name": "\u0412\u041e\u0414\u0410 \u041f\u0418\u0422.\u0411\u041e\u041d\u0410\u041a\u0412\u0410 \u0421\u0418\u041b\/\u0413\u0410\u0417.0.5\u041b",
+            "badges": [
+                ""
+            ],
+            "price": {
+                "value": "1.05",
+                "currency": "BYN"
+            },
+            "size": [
+                {
+                    "value": "0.50",
+                    "unit": "\u043b"
+                },
+                {
+                    "value": "0.50",
+                    "unit": "\u043a\u0433"
+                }
+            ],
+            "picture": "http:\/\/api.ezhik.by\/export\/images\/90494406.jpg",
+            "params": [
+                {
+                    "value": "\u0428\u0442\u0443\u0447\u043d\u044b\u0439",
+                    "id": "passScales"
+                },
+                {
+                    "value": "\u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430 \u0411\u0435\u043b\u0430\u0440\u0443\u0441\u044c",
+                    "id": "nameCountry"
+                },
+                {
+                    "value": "Bonaqua",
+                    "id": "nameBrand"
+                },
+                {
+                    "value": "\u041a\u043e\u043a\u0430 \u041a\u043e\u043b\u0430 \u0411\u0435\u0432\u0440\u0438\u0434\u0436\u0438\u0437",
+                    "id": "nameManufacturer"
+                },
+                {
+                    "value": "0.50000",
+                    "id": "netWeight"
+                },
+                {
+                    "value": "0.500",
+                    "id": "volume"
+                },
+                {
+                    "value": "\u041d\u0435\u0430\u043a\u0446\u0438\u043e\u043d\u043d\u044b\u0439",
+                    "id": "inPromo"
+                }
+            ]
+        }
+    ]        
+}    
